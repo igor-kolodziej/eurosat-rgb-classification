@@ -1,0 +1,32 @@
+seed: 42
+
+paths:
+  data_raw: data/raw
+  data_splits: data/splits
+  outputs_root: outputs
+  outputs_figures: outputs/figures
+  outputs_metrics: outputs/metrics
+  outputs_models: outputs/models
+  outputs_samples: outputs/samples
+
+dataset:
+  name: eurosat_rgb
+  download: true
+  split_ratios:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+  comparison_samples_per_class: 5
+  eda_histogram_samples_per_class: 20
+
+training:
+  variant_id: v0_raw
+  batch_size: 64
+  epochs: 8
+  learning_rate: 0.001
+  num_workers: 0
+  early_stopping_patience: 3
+  subset_fraction: 1.0
+
+baseline_model:
+  name: baseline_cnn_v0
