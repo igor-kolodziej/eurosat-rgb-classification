@@ -104,7 +104,7 @@ def build_interpretation() -> str:
             "- `v0_raw` preserves the untouched RGB patches and serves as the reference point for all downstream comparisons.",
             "- `v1_normalized` keeps the image appearance close to raw after denormalization, but stabilizes channel scaling for model optimization.",
             "- `v2_enhanced` increases local luminance contrast through CLAHE, which makes field boundaries and urban textures more explicit in several classes.",
-            "- The contrast shift is moderate rather than destructive, so `v2_enhanced` is a reasonable preprocessing candidate for Person 2 to test against the baseline.",
+            "- The contrast shift is moderate rather than destructive, so `v2_enhanced` is a reasonable preprocessing candidate for Part 2 to test against the baseline.",
         ]
     )
 

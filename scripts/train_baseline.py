@@ -37,7 +37,7 @@ def build_result_interpretation(metrics: dict[str, object]) -> str:
             f"- Validation accuracy: {val['accuracy']:.4f}, macro F1: {val['macro_f1']:.4f}.",
             f"- Test accuracy: {test['accuracy']:.4f}, macro F1: {test['macro_f1']:.4f}.",
             "- This small CNN is intentionally modest: it validates the frozen split and dataloader setup rather than maximizing leaderboard performance.",
-            "- Confusion patterns should be used by Person 2 to choose stronger models and decide whether enhanced preprocessing improves similar land-cover classes.",
+            "- Confusion patterns should be used by Part 2 to choose stronger models and decide whether enhanced preprocessing improves similar land-cover classes.",
         ]
     )
 

@@ -44,7 +44,7 @@ Saved split contract:
 - EuroSAT RGB patches are uniform in size, so preprocessing can stay simple.
 - The sampled brightness analysis suggests illumination variation is present, which justifies normalization and contrast comparison.
 - `Pasture` vs `HerbaceousVegetation` and `Residential` vs `Industrial` remain visually close enough to motivate preprocessing experiments.
-- CLAHE increases local contrast without visibly destroying structure, so `v2_enhanced` is a valid candidate for Person 2 experiments.
+- CLAHE increases local contrast without visibly destroying structure, so `v2_enhanced` is a valid candidate for Part 2 experiments.
 
 ## Baseline Classifier
 
@@ -70,7 +70,7 @@ Saved baseline artifacts:
 - `outputs/figures/baseline/training_history_v0.png`
 - `outputs/models/baseline_cnn_v0.pt`
 
-## Handoff Instructions For Person 2
+## Handoff Instructions For Part 2
 
 1. Reuse the frozen split in `data/splits/eurosat_rgb_split.csv`. Do not regenerate it.
 2. Reuse the preprocessing registry in `src/preprocessing/registry.py` and the manifest in `outputs/metrics/preprocessing_variants.json`. Do not silently redefine variants.

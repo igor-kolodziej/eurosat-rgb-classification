@@ -135,7 +135,7 @@ def build_eda_summary(metadata: pd.DataFrame, property_summary: dict[str, object
             f"- Class counts are balanced across the dataset ({class_balance}).",
             f"- Pixel dynamic range spans {property_summary['global_min']} to {property_summary['global_max']} with average brightness {property_summary['brightness_mean']:.2f} +/- {property_summary['brightness_std']:.2f}.",
             "- Residential vs Industrial and Pasture vs HerbaceousVegetation show visible texture and structural overlap, so contrast and normalization comparisons are justified.",
-            "- Illumination differs across patches, but the images are already tightly cropped, so strong geometric distortion or denoising is unnecessary for Person 1.",
+            "- Illumination differs across patches, but the images are already tightly cropped, so strong geometric distortion or denoising is unnecessary for Part 1.",
         ]
     )
 

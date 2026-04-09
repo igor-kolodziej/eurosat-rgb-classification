@@ -1,6 +1,6 @@
 # EuroSAT RGB Preprocessing Package
 
-This repository implements the full 1 part of a two-person university project on satellite image preprocessing, plus one small baseline classification contribution. The scope is limited to the RGB version of EuroSAT and is designed to be reproducible, easy to explain, and realistic to run on a MacBook.
+This repository implements the full Part 1 of a two-part university project on satellite image preprocessing, plus one small baseline classification contribution. The scope is limited to the RGB version of EuroSAT and is designed to be reproducible, easy to explain, and realistic to run on a MacBook.
 
 ## What Is Included
 
@@ -98,7 +98,7 @@ Saved split artifacts:
 - `data/splits/class_to_idx.json`
 - `outputs/metrics/split_summary.json`
 
-Person 2 should reuse these files exactly and must not resample the dataset.
+Part 2 should reuse these files exactly and must not resample the dataset.
 
 ## Preprocessing Variants
 
@@ -145,9 +145,9 @@ Baseline model: small CNN from scratch trained on `v0_raw`.
 - Test accuracy: `0.7388`
 - Test macro F1: `0.7213`
 
-This is meant to validate the frozen data pipeline and give Person 2 a clean starting point, not to be the final modeling study.
+This is meant to validate the frozen data pipeline and give Part 2 a clean starting point, not to be the final modeling study.
 
-## For Person 2
+## For Part 2
 
 Use the existing split and preprocessing registry as fixed infrastructure.
 
@@ -157,7 +157,7 @@ Use the existing split and preprocessing registry as fixed infrastructure.
 4. Use `outputs/metrics/train_channel_stats.json` and `outputs/metrics/preprocessing_variants.json` as the source of truth.
 5. Build new classifiers on top of the frozen split and preprocessing interface.
 
-Recommended starting point for Person 2:
+Recommended starting point for Part 2:
 
 - Compare a stronger CNN or transfer-learning baseline across `v0_raw`, `v1_normalized`, and `v2_enhanced`
 - Reuse the saved confusion matrix and preprocessing comparison to choose which classes need extra modeling attention
