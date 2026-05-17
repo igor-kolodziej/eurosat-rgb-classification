@@ -1,8 +1,10 @@
-# EuroSAT RGB Preprocessing Package
+# EuroSAT RGB Preprocessing & Classification Package
 
-This repository implements the full Part 1 of a two-part university project on satellite image preprocessing, plus one small baseline classification contribution. The scope is limited to the RGB version of EuroSAT and is designed to be reproducible, easy to explain, and realistic to run on a MacBook.
+This repository implements a two-part university project on satellite image preprocessing and classification. The scope is limited to the RGB version of EuroSAT and is designed to be reproducible, easy to explain, and realistic to run on a MacBook.
 
 ## What Is Included
+
+### Part 1: Preprocessing & Baseline
 
 - Reproducible EuroSAT RGB download and loading
 - Frozen stratified train/validation/test split with saved metadata
@@ -10,7 +12,13 @@ This repository implements the full Part 1 of a two-part university project on s
 - Three frozen preprocessing variants
 - Technical preprocessing comparisons with saved figures and summary tables
 - One lightweight CNN baseline trained on the raw/minimal variant
-- Handoff documentation for Part 2
+
+### Part 2: Transfer Learning & Cross-Variant Comparison
+
+- ResNet18 transfer learning model (pretrained ImageNet, fine-tuned)
+- Cross-variant comparison training across all three preprocessing variants
+- Per-class F1 analysis identifying which classes benefit from enhanced preprocessing
+- Comparison figures, confusion matrices, and interpretation reports
 
 ## Project Structure
 
@@ -27,7 +35,8 @@ This repository implements the full Part 1 of a two-part university project on s
 ├── notebooks/
 │   ├── 01_dataset_eda.ipynb
 │   ├── 02_preprocessing_comparison.ipynb
-│   └── 03_baseline_classification.ipynb
+│   ├── 03_baseline_classification.ipynb
+│   └── 04_part2_classification.ipynb
 ├── outputs/
 │   ├── figures/
 │   ├── metrics/
@@ -36,7 +45,9 @@ This repository implements the full Part 1 of a two-part university project on s
 │   ├── prepare_dataset.py
 │   ├── run_eda.py
 │   ├── compare_preprocessing.py
-│   └── train_baseline.py
+│   ├── train_baseline.py
+│   ├── train_transfer.py
+│   └── compare_variants.py
 └── src/
     ├── data/
     ├── preprocessing/
@@ -70,17 +81,32 @@ source .venv/bin/activate
 export MPLCONFIGDIR="$PWD/.mplconfig"
 export XDG_CACHE_HOME="$PWD/.cache"
 
+# Part 1
 python scripts/prepare_dataset.py
 python scripts/run_eda.py
 python scripts/compare_preprocessing.py
 python scripts/train_baseline.py
+
+# Part 2
+python scripts/train_transfer.py --variant v1_normalized
+python scripts/compare_variants.py
+```
+
+To run a quick smoke test with reduced data:
+
+```bash
+python scripts/train_transfer.py --variant v1_normalized --subset-fraction 0.05
+python scripts/compare_variants.py --subset-fraction 0.05
 ```
 
 ## MacBook Note
 
-- The baseline is intentionally lightweight and uses a small CNN from scratch.
-- The default training budget in `configs/project.yaml` is MacBook-friendly: `8` epochs max with early stopping patience `3`.
-- The training script automatically prefers Apple `mps` when available, then `cuda`, then `cpu`.
+- The Part 1 baseline is intentionally lightweight and uses a small CNN from scratch.
+- Part 2 uses ResNet18 which is still laptop-friendly (~11M parameters).
+- The default training budget in `configs/project.yaml`:
+  - Part 1 baseline: `8` epochs max with early stopping patience `3`.
+  - Part 2 transfer: `15` epochs max with early stopping patience `5`.
+- The training scripts automatically prefer Apple `mps` when available, then `cuda`, then `cpu`.
 - `num_workers` is left at `0` to avoid common laptop multiprocessing issues.
 
 ## Frozen Split
@@ -128,7 +154,7 @@ Preprocessing comparison:
 - `outputs/metrics/preprocessing/variant_summary.csv`
 - `outputs/metrics/preprocessing/preprocessing_interpretation.md`
 
-Baseline classification:
+Baseline classification (Part 1):
 
 - `outputs/metrics/baseline/baseline_cnn_v0.json`
 - `outputs/metrics/baseline/baseline_interpretation.md`
@@ -136,7 +162,22 @@ Baseline classification:
 - `outputs/figures/baseline/training_history_v0.png`
 - `outputs/models/baseline_cnn_v0.pt`
 
-## Baseline Results
+Transfer learning (Part 2):
+
+- `outputs/metrics/transfer/resnet18_finetune_<variant>.json`
+- `outputs/figures/transfer/confusion_matrix_resnet18_finetune_<variant>.png`
+- `outputs/figures/transfer/training_history_resnet18_finetune_<variant>.png`
+- `outputs/models/resnet18_finetune_<variant>.pt`
+
+Cross-variant comparison (Part 2):
+
+- `outputs/metrics/comparison/variant_comparison.csv`
+- `outputs/metrics/comparison/comparison_interpretation.md`
+- `outputs/figures/comparison/variant_comparison_bar.png`
+- `outputs/figures/comparison/per_class_f1_by_variant.png`
+- `outputs/figures/comparison/confusion_matrix_resnet18_<variant>.png`
+
+## Baseline Results (Part 1)
 
 Baseline model: small CNN from scratch trained on `v0_raw`.
 
@@ -145,22 +186,34 @@ Baseline model: small CNN from scratch trained on `v0_raw`.
 - Test accuracy: `0.7388`
 - Test macro F1: `0.7213`
 
-This is meant to validate the frozen data pipeline and give Part 2 a clean starting point, not to be the final modeling study.
+This validates the frozen data pipeline and gives Part 2 a clean starting point.
 
-## For Part 2
+## Transfer Learning Results (Part 2)
 
-Use the existing split and preprocessing registry as fixed infrastructure.
+Model: ResNet18 pretrained (ImageNet), fully fine-tuned on each variant.
 
-1. Do not regenerate the split.
-2. Do not change the definitions of `v0_raw`, `v1_normalized`, or `v2_enhanced`.
-3. Load data through `src.data.loaders.build_dataloaders(variant_id, config_path=None)`.
-4. Use `outputs/metrics/train_channel_stats.json` and `outputs/metrics/preprocessing_variants.json` as the source of truth.
-5. Build new classifiers on top of the frozen split and preprocessing interface.
+| Variant | Val Acc | Val F1 | Test Acc | Test F1 |
+|---------|---------|--------|----------|--------|
+| `v0_raw` | 0.8338 | 0.8262 | 0.8400 | 0.8329 |
+| `v1_normalized` | 0.8183 | 0.8111 | 0.8398 | 0.8317 |
+| `v2_enhanced` | 0.8837 | 0.8806 | **0.8953** | **0.8923** |
 
-Recommended starting point for Part 2:
+Key findings:
 
-- Compare a stronger CNN or transfer-learning baseline across `v0_raw`, `v1_normalized`, and `v2_enhanced`
-- Reuse the saved confusion matrix and preprocessing comparison to choose which classes need extra modeling attention
+- Transfer learning improves test accuracy by +10.1 points over the Part 1 baseline even without preprocessing changes.
+- `v2_enhanced` (CLAHE + augmentation) adds another +5.5 points on top of the architecture improvement.
+- Classes with subtle texture differences (Highway, River, PermanentCrop) benefit most from CLAHE.
+- The previously identified confusable pairs (Pasture/HerbaceousVegetation, Residential/Industrial) also show meaningful F1 gains.
+
+## Infrastructure Contracts
+
+The following are frozen and must not be modified:
+
+1. The stratified split in `data/splits/eurosat_rgb_split.csv`.
+2. The preprocessing variant definitions in `src/preprocessing/registry.py`.
+3. The variant manifest in `outputs/metrics/preprocessing_variants.json`.
+4. Channel statistics in `outputs/metrics/train_channel_stats.json`.
+5. Data loading interface: `src.data.loaders.build_dataloaders(variant_id, config_path=None)`.
 
 ## Important Assumptions
 

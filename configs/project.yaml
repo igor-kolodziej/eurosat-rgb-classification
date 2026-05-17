@@ -30,3 +30,11 @@ training:
 
 baseline_model:
   name: baseline_cnn_v0
+
+transfer_training:
+  batch_size: 64
+  epochs: 15
+  learning_rate: 0.0001
+  num_workers: 0
+  early_stopping_patience: 5
+  subset_fraction: 1.0
