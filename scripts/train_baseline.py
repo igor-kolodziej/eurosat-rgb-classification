@@ -87,7 +87,7 @@ def main() -> None:
     }
     save_json(result_payload, outputs_metrics / "baseline_cnn_v0.json")
     save_text(build_result_interpretation(result_payload), outputs_metrics / "baseline_interpretation.md")
-    plot_confusion_matrix(test_result.targets, test_result.predictions, class_names, outputs_figures / "confusion_matrix_v0.png")
+    plot_confusion_matrix(test_result.targets, test_result.predictions, class_names, outputs_figures / "confusion_matrix_v0.png", title="Baseline CNN Confusion Matrix")
     plot_training_history(history, outputs_figures / "training_history_v0.png")
     print("Baseline training complete.")
 

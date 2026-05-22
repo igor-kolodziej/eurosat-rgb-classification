@@ -116,6 +116,7 @@ def main() -> None:
     plot_confusion_matrix(
         test_result.targets, test_result.predictions, class_names,
         outputs_figures / f"confusion_matrix_{model_name}.png",
+        title=f"ResNet18 Confusion Matrix ({args.variant})",
     )
     plot_training_history(history, outputs_figures / f"training_history_{model_name}.png")
 

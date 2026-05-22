@@ -268,6 +268,7 @@ def main() -> None:
         plot_confusion_matrix(
             r["test_targets"], r["test_predictions"], class_names,
             outputs_figures / f"confusion_matrix_resnet18_{r['variant_id']}.png",
+            title=f"ResNet18 Confusion Matrix ({r['variant_id']})",
         )
 
     # Interpretation

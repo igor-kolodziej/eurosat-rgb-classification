@@ -32,11 +32,12 @@ def plot_confusion_matrix(
     y_pred: list[int],
     class_names: list[str],
     output_path: str | Path,
+    title: str = "Confusion Matrix",
 ) -> None:
     matrix = confusion_matrix(y_true, y_pred)
     plt.figure(figsize=(10, 8))
     sns.heatmap(matrix, annot=True, fmt="d", cmap="Blues", xticklabels=class_names, yticklabels=class_names)
-    plt.title("Baseline CNN Confusion Matrix")
+    plt.title(title)
     plt.xlabel("Predicted")
     plt.ylabel("True")
     save_figure(output_path)
