@@ -1,8 +1,16 @@
-# EuroSAT RGB Preprocessing & Classification Package
+# EuroSAT RGB Classification
 
-This repository implements a two-part university project on satellite image preprocessing and classification. The scope is limited to the RGB version of EuroSAT and is designed to be reproducible, easy to explain, and realistic to run on a MacBook.
+A reproducible computer-vision study of how preprocessing and transfer learning affect ten-class land-use classification on the 27,000-image RGB EuroSAT dataset.
 
-## What Is Included
+The strongest previous experiment used a fully fine-tuned ImageNet-pretrained ResNet18 with CLAHE and train-time augmentation. It reported **89.53% test accuracy** and **89.23% macro-F1**, a 5.5-point accuracy gain over the same architecture on the raw variant.
+
+> The metrics below come from the completed project run described by the saved configuration and split. Model checkpoints and generated plots are intentionally not committed, so they are reported as prior experiment results rather than claimed as freshly reproduced CI output.
+
+## Why it matters
+
+Remote-sensing classes often differ more by texture and spatial pattern than by a single object. The project therefore keeps the model and split fixed while comparing minimal input, train-set normalization, and a contrast-enhanced pipeline. This makes the preprocessing contribution distinguishable from the architecture contribution.
+
+## What is included
 
 ### Part 1: Preprocessing & Baseline
 
@@ -57,7 +65,7 @@ This repository implements a two-part university project on satellite image prep
     └── utils/
 ```
 
-## Environment Setup
+## Environment setup
 
 The local system Python is externally managed, so use a virtual environment.
 
@@ -92,12 +100,21 @@ python scripts/train_transfer.py --variant v1_normalized
 python scripts/compare_variants.py
 ```
 
-To run a quick smoke test with reduced data:
+To run a quick training smoke test with reduced data:
 
 ```bash
 python scripts/train_transfer.py --variant v1_normalized --subset-fraction 0.05
 python scripts/compare_variants.py --subset-fraction 0.05
 ```
+
+Run the privacy-safe synthetic unit tests without downloading EuroSAT:
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
+
+For the exploratory notebooks, install `requirements-notebook.txt` instead.
 
 ## MacBook Note
 
@@ -177,7 +194,7 @@ Cross-variant comparison (Part 2):
 - `outputs/figures/comparison/per_class_f1_by_variant.png`
 - `outputs/figures/comparison/confusion_matrix_resnet18_<variant>.png`
 
-## Baseline Results (Part 1)
+## Baseline results (Part 1)
 
 Baseline model: small CNN from scratch trained on `v0_raw`.
 
@@ -188,7 +205,7 @@ Baseline model: small CNN from scratch trained on `v0_raw`.
 
 This validates the frozen data pipeline and gives Part 2 a clean starting point.
 
-## Transfer Learning Results (Part 2)
+## Transfer-learning results (Part 2)
 
 Model: ResNet18 pretrained (ImageNet), fully fine-tuned on each variant.
 
@@ -198,7 +215,7 @@ Model: ResNet18 pretrained (ImageNet), fully fine-tuned on each variant.
 | `v1_normalized` | 0.8183 | 0.8111 | 0.8398 | 0.8317 |
 | `v2_enhanced` | 0.8837 | 0.8806 | **0.8953** | **0.8923** |
 
-Key findings:
+Key findings from the prior completed run:
 
 - Transfer learning improves test accuracy by +10.1 points over the Part 1 baseline even without preprocessing changes.
 - `v2_enhanced` (CLAHE + augmentation) adds another +5.5 points on top of the architecture improvement.
@@ -222,3 +239,14 @@ The following are frozen and must not be modified:
 - Fixed seed `42`
 - No denoising in the enhanced pipeline because the patches are small and texture is important
 - No presentation slides are included
+
+## Limitations
+
+- The committed repository does not include the dataset, generated checkpoints, or output figures.
+- The reported metrics are from one frozen split and should not be interpreted as a benchmark across datasets or sensors.
+- ImageNet pretraining introduces source-domain assumptions that are not analyzed here.
+- CLAHE can amplify local noise as well as useful contrast; its benefit is empirical, not universal.
+
+## Author
+
+[Igor Kołodziej](https://igor-kolodziej.github.io/) · [LinkedIn](https://www.linkedin.com/in/igor-kolodziej/)
