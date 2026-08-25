@@ -89,7 +89,7 @@ Saved baseline artifacts:
 | `v1_normalized` | 0.8183 | 0.8111 | 0.8398 | 0.8317 |
 | `v2_enhanced` | 0.8837 | 0.8806 | 0.8953 | 0.8923 |
 
-Best variant: `v2_enhanced` — CLAHE contrast enhancement combined with satellite-safe augmentation produces the highest accuracy and F1.
+Best variant: `v2_enhanced`. CLAHE contrast enhancement combined with satellite-safe augmentation produces the highest accuracy and F1.
 
 ### Per-Class Findings (v2 vs v0 F1 Improvement)
 
@@ -104,8 +104,8 @@ Classes with subtle texture differences (Highway, River, PermanentCrop) benefit 
 
 ### Improvement Over Part 1 Baseline
 
-- Best Part 2 model (`v2_enhanced`): test accuracy `0.8953` vs Part 1 baseline `0.7388` — a **+15.6 percentage point** gain.
-- Transfer learning alone (v0_raw, no preprocessing change): test accuracy `0.8400` — a **+10.1 point** gain, confirming the model architecture contributes most.
+- Best Part 2 model (`v2_enhanced`): test accuracy `0.8953` vs Part 1 baseline `0.7388`, a **+15.6 percentage point** gain.
+- Transfer learning alone (v0_raw, no preprocessing change): test accuracy `0.8400`, a **+10.1 point** gain. This confirms that the model architecture contributes most.
 - Preprocessing adds another **+5.5 points** on top of the architecture improvement.
 
 Saved transfer artifacts:

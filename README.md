@@ -32,37 +32,37 @@ Remote-sensing classes often differ more by texture and spatial pattern than by 
 
 ```text
 .
-├── README.md
-├── TECHNICAL_SUMMARY.md
-├── requirements.txt
-├── configs/
-│   └── project.yaml
-├── data/
-│   ├── raw/
-│   └── splits/
-├── notebooks/
-│   ├── 01_dataset_eda.ipynb
-│   ├── 02_preprocessing_comparison.ipynb
-│   ├── 03_baseline_classification.ipynb
-│   └── 04_part2_classification.ipynb
-├── outputs/
-│   ├── figures/
-│   ├── metrics/
-│   └── models/
-├── scripts/
-│   ├── prepare_dataset.py
-│   ├── run_eda.py
-│   ├── compare_preprocessing.py
-│   ├── train_baseline.py
-│   ├── train_transfer.py
-│   └── compare_variants.py
-└── src/
-    ├── data/
-    ├── preprocessing/
-    ├── models/
-    ├── training/
-    ├── evaluation/
-    └── utils/
++-- README.md
++-- TECHNICAL_SUMMARY.md
++-- requirements.txt
++-- configs/
+|   +-- project.yaml
++-- data/
+|   +-- raw/
+|   +-- splits/
++-- notebooks/
+|   +-- 01_dataset_eda.ipynb
+|   +-- 02_preprocessing_comparison.ipynb
+|   +-- 03_baseline_classification.ipynb
+|   +-- 04_part2_classification.ipynb
++-- outputs/
+|   +-- figures/
+|   +-- metrics/
+|   +-- models/
++-- scripts/
+|   +-- prepare_dataset.py
+|   +-- run_eda.py
+|   +-- compare_preprocessing.py
+|   +-- train_baseline.py
+|   +-- train_transfer.py
+|   +-- compare_variants.py
++-- src/
+    +-- data/
+    +-- preprocessing/
+    +-- models/
+    +-- training/
+    +-- evaluation/
+    +-- utils/
 ```
 
 ## Environment setup
@@ -249,4 +249,4 @@ The following are frozen and must not be modified:
 
 ## Author
 
-[Igor Kołodziej](https://igor-kolodziej.github.io/) · [LinkedIn](https://www.linkedin.com/in/igor-kolodziej/)
+[Igor Kołodziej](https://igor-kolodziej.github.io/) | [LinkedIn](https://www.linkedin.com/in/igor-kolodziej/)
