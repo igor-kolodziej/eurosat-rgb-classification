@@ -1,14 +1,14 @@
 # EuroSAT RGB Classification
 
-A reproducible computer-vision study of how preprocessing and transfer learning affect ten-class land-use classification on the 27,000-image RGB EuroSAT dataset.
+This project compares three image-preprocessing approaches for classifying the 27,000 RGB images in EuroSAT. I kept the data split and model architecture fixed so that the effect of preprocessing was easier to see.
 
-The strongest previous experiment used a fully fine-tuned ImageNet-pretrained ResNet18 with CLAHE and train-time augmentation. It reported **89.53% test accuracy** and **89.23% macro-F1**, a 5.5-point accuracy gain over the same architecture on the raw variant.
+The best completed experiment used a fully fine-tuned, ImageNet-pretrained ResNet18 with CLAHE and train-time augmentation. It reported **89.53% test accuracy** and **89.23% macro-F1**, 5.5 percentage points above the same architecture on the raw images.
 
 > The metrics below come from the completed project run described by the saved configuration and split. Model checkpoints and generated plots are intentionally not committed, so they are reported as prior experiment results rather than claimed as freshly reproduced CI output.
 
-## Why it matters
+## What I compared
 
-Remote-sensing classes often differ more by texture and spatial pattern than by a single object. The project therefore keeps the model and split fixed while comparing minimal input, train-set normalization, and a contrast-enhanced pipeline. This makes the preprocessing contribution distinguishable from the architecture contribution.
+EuroSAT classes often differ by texture and spatial pattern rather than by one obvious object. I compared raw images, train-set normalization, and contrast enhancement while keeping the model and split fixed. This makes it possible to separate the effect of preprocessing from the effect of the architecture.
 
 ## What is included
 
